@@ -130,7 +130,7 @@ for ARCHIVE in ${APT_CACHE_DIR}/var/cache/apt/archives/*.deb; do
 
   # Add the package to the status file.
   cat "${TMP_CONTROL}/control" >> "${ROOT_DIR}/var/lib/dpkg/status"
-  printf "Status: install ok unpacked\n" >> "${ROOT_DIR}/var/lib/dpkg/status"
+  printf "Status: install ok unpacked\n\n" >> "${ROOT_DIR}/var/lib/dpkg/status"
   rm -f "${TMP_CONTROL}/control"
 
   # Move control files to the info directory.
