@@ -97,6 +97,9 @@ if [ "$OMIT_REQUIRED" = "false" ]; then
   done
 fi
 
+# replace usrmerge with usr-is-merged as we will perform our own usrmerge during unpacking.
+REQUIRED_PACKAGES=$(echo "${REQUIRED_PACKAGES}" | sed 's/usrmerge/usr-is-merged/g')
+
 # Get the names and versions of the required packages (and their transitive dependencies).
 # shellcheck disable=SC2086
 PACKAGE_VERSIONS=$(apt install ${APT_OPTIONS} --simulate ${REQUIRED_PACKAGES} ${EXTRA_PACKAGES} | awk '/^Inst / {gsub(/[()]/, "", $3); print $2"="$3}')
