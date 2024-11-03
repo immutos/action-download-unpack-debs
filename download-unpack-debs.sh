@@ -146,8 +146,8 @@ for ARCHIVE in ${APT_CACHE_DIR}/var/cache/apt/archives/*.deb; do
 done
 
 # We perform our own merging of /usr, so remove the usr-is-merged pre/postinst scripts.
-rm -f ${ROOT_DIR}/var/lib/dpkg/info/usr-is-merged.preinst \
-  ${ROOT_DIR}/var/lib/dpkg/info/usr-is-merged.postinst
+rm -f "${ROOT_DIR}/var/lib/dpkg/info/usr-is-merged.preinst" \
+  "${ROOT_DIR}/var/lib/dpkg/info/usr-is-merged.postinst"
 
 # Clean up the temporary control directory.
 rm -rf "${TMP_CONTROL}"
