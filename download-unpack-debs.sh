@@ -88,7 +88,7 @@ cp /etc/apt/trusted.gpg.d/* "${APT_CACHE_DIR}/etc/apt/trusted.gpg.d/"
 apt update ${APT_OPTIONS}
 
 # Get the list of required packages if OMIT_REQUIRED is not set to true.
-REQUIRED_PACKAGES=""
+REQUIRED_PACKAGES="usr-is-merged"
 if [ "$OMIT_REQUIRED" = "false" ]; then
   # shellcheck disable=SC2231
   for PACKAGES_FILE in ${APT_CACHE_DIR}/var/lib/apt/lists/*_Packages; do
@@ -99,7 +99,7 @@ fi
 
 # Get the names and versions of the required packages (and their transitive dependencies).
 # shellcheck disable=SC2086
-PACKAGE_VERSIONS=$(apt install ${APT_OPTIONS} --simulate usr-is-merged ${REQUIRED_PACKAGES} ${EXTRA_PACKAGES} | awk '/^Inst / {gsub(/[()]/, "", $3); print $2"="$3}')
+PACKAGE_VERSIONS=$(apt install ${APT_OPTIONS} --simulate ${REQUIRED_PACKAGES} ${EXTRA_PACKAGES} | awk '/^Inst / {gsub(/[()]/, "", $3); print $2"="$3}')
 
 # Download the required packages (and their transitive dependencies).
 # shellcheck disable=SC2086
@@ -144,6 +144,10 @@ for ARCHIVE in ${APT_CACHE_DIR}/var/cache/apt/archives/*.deb; do
     echo "${PACKAGE_FILES}" | awk '{print substr($6, 2)}' > "${ROOT_DIR}/var/lib/dpkg/info/${PACKAGE_NAME}.list"
   fi
 done
+
+# We perform our own merging of /usr, so remove the usr-is-merged pre/postinst scripts.
+rm -f ${ROOT_DIR}/var/lib/dpkg/info/usr-is-merged.preinst \
+  ${ROOT_DIR}/var/lib/dpkg/info/usr-is-merged.postinst
 
 # Clean up the temporary control directory.
 rm -rf "${TMP_CONTROL}"
