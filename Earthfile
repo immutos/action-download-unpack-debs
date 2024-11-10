@@ -13,9 +13,6 @@ lint:
 
 docker-bookworm:
   FROM debian:bookworm-slim
-  RUN apt update \
-    && apt install -y fakechroot \
-    && rm -rf /var/lib/apt/lists/*
   COPY LICENSE /usr/share/doc/action-download-unpack-debs/copyright
   COPY download-unpack-debs.sh /usr/local/bin/download-unpack-debs.sh
   RUN chmod +x /usr/local/bin/download-unpack-debs.sh
@@ -26,9 +23,6 @@ docker-bookworm:
 
 docker-trixie:
   FROM debian:trixie-slim
-  RUN apt update \
-    && apt install -y fakechroot \
-    && rm -rf /var/lib/apt/lists/*
   COPY LICENSE /usr/share/doc/action-download-unpack-debs/copyright
   COPY download-unpack-debs.sh /usr/local/bin/download-unpack-debs.sh
   RUN chmod +x /usr/local/bin/download-unpack-debs.sh
